@@ -26,14 +26,13 @@ float zNear = -1.0f;
 float zFar = 1.0f;
 
 
-void key_callback(GLFWwindow *window, int key, int scancode, int action, int mods) {
-    std::cout << "pressed";
+void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods) {
     switch (key) {
         case GLFW_KEY_S:
-            zFar -= 0.1f;
+            zFar -= 1.0f;
             break;
         case GLFW_KEY_W:
-            zFar += 0.1f;
+            zFar += 1.0f;
             break;
         case GLFW_KEY_A:
             leftProj += 10.0f;
@@ -109,7 +108,6 @@ int main( void )
     GLCall( glEnable(GL_BLEND) );
     GLCall( glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA) );
     glfwSetKeyCallback(window, key_callback);
-
     {
         VertexArray va;
         VertexBuffer vb(positions, 4 * 4 * sizeof(float));
@@ -146,6 +144,7 @@ int main( void )
         ImGui_ImplGlfwGL3_Init(window, true);
         ImGui::StyleColorsDark();
 
+
         glm::vec3 translationA(200, 200, 0);
         glm::vec3 translationB(400, 200, 0);
 
@@ -178,7 +177,6 @@ int main( void )
 
             ImGui::Render();
             ImGui_ImplGlfwGL3_RenderDrawData(ImGui::GetDrawData());
-
             // Swap buffers
             glfwSwapBuffers(window);
             glfwPollEvents();

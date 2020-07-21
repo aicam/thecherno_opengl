@@ -349,10 +349,10 @@ void    ImGui_ImplGlfwGL3_InvalidateDeviceObjects()
 
 static void ImGui_ImplGlfw_InstallCallbacks(GLFWwindow* window)
 {
-    glfwSetMouseButtonCallback(window, ImGui_ImplGlfw_MouseButtonCallback);
-    glfwSetScrollCallback(window, ImGui_ImplGlfw_ScrollCallback);
-    glfwSetKeyCallback(window, ImGui_ImplGlfw_KeyCallback);
-    glfwSetCharCallback(window, ImGui_ImplGlfw_CharCallback);
+//    glfwSetMouseButtonCallback(window, ImGui_ImplGlfw_MouseButtonCallback);
+//    glfwSetScrollCallback(window, ImGui_ImplGlfw_ScrollCallback);
+//    glfwSetKeyCallback(window, ImGui_ImplGlfw_KeyCallback);
+//    glfwSetCharCallback(window, ImGui_ImplGlfw_CharCallback);
 }
 
 bool    ImGui_ImplGlfwGL3_Init(GLFWwindow* window, bool install_callbacks, const char* glsl_version)
