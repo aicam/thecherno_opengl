@@ -16,8 +16,33 @@
 #include "glm/glm.hpp"
 #include "glm/gtc/matrix_transform.hpp"
 
-#include "imgui.h"
-#include "imgui_impl_glfw_gl3.h"
+#include "vendor/imgui/imgui.h"
+#include "vendor/imgui/imgui_impl_glfw_gl3.h"
+float leftProj = 0.0f;
+float rightProj = 960.0f;
+float bottomProj = 0.0f;
+float topProj = 540.0f;
+float zNear = -1.0f;
+float zFar = 1.0f;
+
+
+void key_callback(GLFWwindow *window, int key, int scancode, int action, int mods) {
+    std::cout << "pressed";
+    switch (key) {
+        case GLFW_KEY_S:
+            zFar -= 0.1f;
+            break;
+        case GLFW_KEY_W:
+            zFar += 0.1f;
+            break;
+        case GLFW_KEY_A:
+            leftProj += 10.0f;
+            break;
+        case GLFW_KEY_D:
+            leftProj -= 10.0f;
+            break;
+    }
+}
 
 GLFWwindow* InitWindow()
 {
@@ -83,6 +108,7 @@ int main( void )
 
     GLCall( glEnable(GL_BLEND) );
     GLCall( glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA) );
+    glfwSetKeyCallback(window, key_callback);
 
     {
         VertexArray va;
@@ -90,7 +116,6 @@ int main( void )
         IndexBuffer ib(indices, 6);
 
         // projection matrix
-        glm::mat4 proj = glm::ortho(0.0f, 960.0f, 0.0f, 540.0f, -1.0f, 1.0f);
 
         // view matrix
         glm::mat4 ident = glm::mat4(1.0f);
@@ -103,11 +128,11 @@ int main( void )
 
         va.AddBuffer(vb, layout);
 
-        Shader shader("res/shaders/Basic.shader");
+        Shader shader("/home/ali/Documents/thecherno_opengl/ep23-rendering-multiple-objects/res/shaders/Basic.shader");
         shader.Bind();
         shader.SetUniform4f("u_Color", 0.0f, 0.3f, 0.8f, 1.0f);
 
-        Texture texture("res/textures/phone.png");
+        Texture texture("/home/ali/Documents/thecherno_opengl/ep23-rendering-multiple-objects/res/textures/phone.png");
         texture.Bind();
         shader.SetUniform1i("u_Texture", 0);
 
@@ -128,7 +153,7 @@ int main( void )
             renderer.Clear();
 
             ImGui_ImplGlfwGL3_NewFrame();
-
+            glm::mat4 proj = glm::ortho(leftProj, rightProj, bottomProj, topProj, zNear, zFar);
             {
                 glm::mat4 model = glm::translate(glm::mat4(1.0f), translationA);
                 glm::mat4 mvp = proj * view * model;
